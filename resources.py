@@ -14,8 +14,8 @@ class UserRegistration(Resource):
             return {'message': 'User {} already exists'.format(data['username'])}
 
         new_user = UserModel(
-            username = data['username'],
-            password = data['password']
+            username=data['username'],
+            password=UserModel.generate_hash(data['password'])
         )
         try:
             new_user.save_to_db()
@@ -32,7 +32,7 @@ class UserLogin(Resource):
         if not current_user:
             return {'message': 'User {} doesn\'t exist'.format(data['username'])}
 
-        if data['password'] == current_user.password:
+        if UserModel.verify_hash(data['password'], current_user.password):
             return {'message': 'Logged in as {}'.format(current_user.username)}
         else:
             return {'message': 'Wrong credentials'}
@@ -55,10 +55,10 @@ class TokenRefresh(Resource):
 
 class AllUsers(Resource):
     def get(self):
-        return {'message': 'List of users'}
+        return UserModel.return_all()
 
     def delete(self):
-        return {'message': 'Delete all users'}
+        return UserModel.delete_all()
 
 
 class SecretResource(Resource):
