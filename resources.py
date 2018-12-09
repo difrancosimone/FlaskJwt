@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
-from models import UserModel, RevokedTokenModel
+#from models import UserModel, RevokedTokenModel
+from models import UserModel
 from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt)
 
 parser = reqparse.RequestParser()
@@ -29,7 +30,7 @@ class UserRegistration(Resource):
                 'refresh_token': refresh_token
             }
         except:
-            return {'message': 'Something went wrong'}, 500
+            return {'message': 'Something went wrong'}
 
 
 class UserLogin(Resource):
@@ -75,24 +76,24 @@ class AllUsers(Resource):
     def delete(self):
         return UserModel.delete_all()
 
-class UserLogoutAccess(Resource):
-    @jwt_required
-    def post(self):
-        jti = get_raw_jwt()['jti']
-        try:
-            revoked_token = RevokedTokenModel(jti=jti)
-            revoked_token.add()
-            return {'message': 'Access token has been revoked'}
-        except:
-            return {'message': 'Something went wrong'}, 500
+#class UserLogoutAccess(Resource):
+#    @jwt_required
+#    def post(self):
+#        jti = get_raw_jwt()['jti']
+#        try:
+#            revoked_token = RevokedTokenModel(jti=jti)
+#            revoked_token.add()
+#            return {'message': 'Access token has been revoked'}
+#        except:
+#            return {'message': 'Something went wrong'}, 500
 
-class UserLogoutRefresh(Resource):
-    @jwt_refresh_token_required
-    def post(self):
-        jti = get_raw_jwt()['jti']
-        try:
-            revoked_token = RevokedTokenModel(jti=jti)
-            revoked_token.add()
-            return {'message': 'Refresh token has been revoked'}
-        except:
-            return {'message': 'Something went wrong'}, 500
+#class UserLogoutRefresh(Resource):
+#    @jwt_refresh_token_required
+#    def post(self):
+#        jti = get_raw_jwt()['jti']
+#        try:
+#            revoked_token = RevokedTokenModel(jti=jti)
+#            revoked_token.add()
+#            return {'message': 'Refresh token has been revoked'}
+#        except:
+#            return {'message': 'Something went wrong'}, 500
