@@ -1,3 +1,5 @@
 app.db
 *.pyc
 .idea/*
+__pychache__
+
