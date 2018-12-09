@@ -9,3 +9,7 @@ This is a starter boilerplate based in Flask framework ready to use.
 * JWT user authentication (ready to manage users in stateless mode)
 * using Flask-JWT-Extended extension to manage rest calls
 * using SQLAlchemy to manage database connections
+
+### Run with
+
+```FLASK_APP=run.py FLASK_DEBUG=1 flask run```
